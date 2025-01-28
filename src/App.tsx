@@ -1,12 +1,19 @@
-import './App.css'
-import FetchCountryFlagsAndRegions from './Components/FetchCountryFlagsAndRegions'
+import "./App.css";
+import FetchCountryFlagsAndRegions from "./Components/FetchCountryFlagsAndRegions";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 
 function App() {
   return (
     <>
-    <FetchCountryFlagsAndRegions/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<FetchCountryFlagsAndRegions />} />
+         
+        </Routes>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

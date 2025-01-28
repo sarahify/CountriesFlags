@@ -16,8 +16,6 @@ interface CountryData {
 
 const baseUrl = "https://restcountries.com/v3.1";
 
-// https://restcountries.com/v3.1/{service}?fields={field},{field},{field}
-
 const FetchCountryFlagsAndRegions = () => {
   const [themeColour, setThemeColour] = useState(false);
   const [countries, setCountries] = useState<CountryData[]>([]);
@@ -45,8 +43,6 @@ const FetchCountryFlagsAndRegions = () => {
     }
   };
 
-  
-
   // Initial fetch (All countries)
   useEffect(() => {
     fetchCountries(`${baseUrl}/all`);
@@ -71,6 +67,8 @@ const FetchCountryFlagsAndRegions = () => {
     }
   };
 
+
+
   return (
     <div>
       <div
@@ -78,7 +76,7 @@ const FetchCountryFlagsAndRegions = () => {
           themeColour ? "bg-gray-900 text-white" : "bg-white text-black"
         }`}
       >
-        <div className="flex flex-col md:flex-row items-center justify-between border-b-8 border-b-neutral-100 p-4">
+        <div className="flex flex-col md:flex-row items-center justify-between p-4 shadow rounded-lg overflow-hidden">
           <h1 className="font-semibold text-3xl">Where in the world!</h1>
           <div
             onClick={handleToggleColour}
