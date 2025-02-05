@@ -48,11 +48,6 @@ const FetchCountryFlagsAndRegions = () => {
   };
   
 
-  // Initial fetch (All countries)
-  useEffect(() => {
-    fetchCountries(`${baseUrl}/all`);
-  }, []);
-
    // Debounced Search Functionality
    useEffect(() => {
     const debounce = setTimeout(() => {
