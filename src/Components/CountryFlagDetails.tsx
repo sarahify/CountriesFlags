@@ -163,73 +163,67 @@ const CountryFlagDetails = () => {
           {error && <p className="text-center text-red-500 mt-10">{error}</p>}
 
           {country && (
-            <div className=" flex flex-row items-center justify-between mt-10">
-              <div>
+            <div className="flex flex-row items-center gap-12">
+              <div className="4">
                 <img
                   src={country.flags.svg}
                   alt={country.flags.alt || `Flag of ${country.name.common}`}
-                  className="w-70 rounded-lg shadow-lg"
+                  className="rounded-lg shadow-lg mt-10 h-80"
                 />
               </div>
-              <div className="">
-                <h2 className="text-3xl font-semibold">
-                  {country.name.common}
-                </h2>
-                <h2>
-                  Native Name:{" "}
-                  {Object.values(country?.name.nativeName || {})[0].common}
-                </h2>
-
-                <h2 className="text-sm">Population: {country.population}</h2>
-                <h2 className="text-sm">Region: {country.region}</h2>
-                <h2 className="text-sm">Sub Region: {country.subregion}</h2>
-                <h2 className="text-sm">Capital: {country.capital}</h2>
-
+              <div className="flex flex-row">
                 <div className="">
-                  {borderCountry?.length && (
-                    <div className="flex items-center justify-between mt-14 gap-3">
-                      Border Countries:{" "}
-                      {borderCountry?.map((country, index) => (
-                        <p
-                          key={index}
-                          className="border border-gray-500 bg-white text-gray-400 shadow p-2 rounded-sm"
-                        >
-                          {country?.name?.official}
-                        </p>
-                      ))}{" "}
-                    </div>
-                  )}
+                  <h2 className="text-3xl font-semibold">
+                    {country.name.common}
+                  </h2>
+                  <h2 className=" mt-10">
+                    Native Name:{" "}
+                    {Object.values(country?.name.nativeName || {})[0].common}
+                  </h2>
+
+                  <h2 className="text-sm">Population: {country.population}</h2>
+                  <h2 className="text-sm">Region: {country.region}</h2>
+                  <h2 className="text-sm">Sub Region: {country.subregion}</h2>
+                  <h2 className="text-sm ">Capital: {country.capital}</h2>
+
+
+                  <div className="">
+                    {borderCountry?.length && (
+                      <div className="flex items-center justify-between mt-14 gap-3">
+                        Border Countries:{" "}
+                        {borderCountry?.map((country, index) => (
+                          <p
+                            key={index}
+                            className={`border border-white text-gray-400 shadow p-2 rounded-sm ${
+                              themeColour
+                                ? "bg-gray-700 text-white"
+                                : "bg-white text-gray-400"
+                            }`}
+                          >
+                            {country?.name?.official}
+                          </p>
+                        ))}{" "}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
-               
-              </div>
-
-              <div className="">
-                <h2>Top Level Domain: .be</h2>
-                <h2>
-                  Currencies:{" "}
-                  {Object.values(country?.currencies || {})
-                    .map((item) => item.name)
-                    .toString()}
-                </h2>
-                <h2>
-                  Languages:{" "}
-                  {Object.values(country?.languages || {}).toString()}
-                </h2>
+                <div className=" mt-20">
+                  <h2>Top Level Domain: .be</h2>
+                  <h2>
+                    Currencies:{" "}
+                    {Object.values(country?.currencies || {})
+                      .map((item) => item.name)
+                      .toString()}
+                  </h2>
+                  <h2>
+                    Languages:{" "}
+                    {Object.values(country?.languages || {}).toString()}
+                  </h2>
+                </div>
               </div>
             </div>
           )}
-
-          {/* <div className="">
-            {borderCountry?.length && (
-              <div className="flex items-center justify-between">
-                Border Countries:{" "}
-                {borderCountry?.map((country, index) => (
-                  <p key={index} className="border border-gray-500 bg-gray-600 p-2 rounded-sm">{country?.name?.official}</p>
-                ))}{" "}
-              </div>
-            )}
-          </div> */}
         </div>
       </div>
     </div>
