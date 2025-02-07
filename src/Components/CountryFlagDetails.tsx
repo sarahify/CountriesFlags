@@ -22,7 +22,7 @@ interface Country {
   population: number;
   languages: { [key: string]: string };
   currencies: { [key: string]: { name: string; symbol: string } };
-
+  cca3: string;
   borders: string[];
 
   flags: {
@@ -41,6 +41,8 @@ const CountryFlagDetails = () => {
   const navigate = useNavigate();
   const [themeColour, setThemeColour] = useState(false);
   const [country, setCountry] = useState<Country | null>(null);
+  const [borderCountry, setBorderCountry] = useState<Country[] | null>(null);
+  const [countries, setCountries] = useState<Country[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { code } = useParams();
@@ -49,30 +51,85 @@ const CountryFlagDetails = () => {
     setThemeColour(!themeColour);
   };
 
-  useEffect(() => {
-    const fetchCountryDetails = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await axios.get(`${baseUrl}/alpha/${code}`);
-        // console.log(response.data);
-        setCountry(response.data[0]); // The API returns an array
-      } catch (error) {
-        console.error("Error fetching country:", error);
-        setError("Error fetching countries. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  // const fetchCountryDetails = async () => {
+  //   try {
+  //     setLoading(true);
+  //     setError(null);
+  //     const response = await axios.get(`${baseUrl}/alpha/${code}`);
+  //     // console.log(response.data);
+  //     setCountry(response.data[0]); // The API returns an array
 
+  //   } catch (error) {
+  //     console.error("Error fetching country:", error);
+  //     setError("Error fetching countries. Please try again.");
+
+  //   }  finally {
+  //     setLoading(false);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   if (code) {
+  //     fetchCountryDetails();
+  //   }
+
+  // },[code])
+
+  const fetchCountryDetails = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axios.get(`${baseUrl}/alpha/${code}`);
+      // console.log(response.data);
+      setCountry(response.data[0]); // The API returns an array
+    } catch (error) {
+      console.error("Error fetching country:", error);
+      setError("Error fetching countries. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchCountriesDetails = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axios.get(`${baseUrl}/all`);
+      // console.log(response.data);
+      setCountries(response.data); // The API returns an array
+    } catch (error) {
+      console.error("Error fetching country:", error);
+      setError("Error fetching countries. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     if (code) {
       fetchCountryDetails();
+      fetchCountriesDetails();
     }
-  }, [code]);
+  }, []);
 
-  console.log(
-    { country },
-  );
+  function getBorderCountries(borders: string[]) {
+    //Write a function that filter the countries by the borders arg and returns a list of country names
+    const filtered = countries?.filter((country) =>
+      borders.includes(country?.cca3)
+    );
+
+    if (filtered?.length) setBorderCountry(filtered);
+  }
+
+  useEffect(() => {
+    if (country?.borders) {
+      getBorderCountries(country.borders);
+    }
+  }, [country?.borders]);
+
+  console.log({ borderCountry });
+
+  //Run the border country code through the countries array
 
   return (
     <div>
@@ -106,12 +163,12 @@ const CountryFlagDetails = () => {
           {error && <p className="text-center text-red-500 mt-10">{error}</p>}
 
           {country && (
-            <div className=" flex flex-row items-center justify-between">
+            <div className=" flex flex-row items-center justify-between mt-10">
               <div>
                 <img
                   src={country.flags.svg}
                   alt={country.flags.alt || `Flag of ${country.name.common}`}
-                  className="h-80 border rounded-lg shadow-lg"
+                  className="w-70 rounded-lg shadow-lg"
                 />
               </div>
               <div className="">
@@ -125,11 +182,28 @@ const CountryFlagDetails = () => {
 
                 <h2 className="text-sm">Population: {country.population}</h2>
                 <h2 className="text-sm">Region: {country.region}</h2>
-                <h2 className="text-sm">
-                  SubRegion: {country.subregion} henry
-                </h2>
+                <h2 className="text-sm">Sub Region: {country.subregion}</h2>
                 <h2 className="text-sm">Capital: {country.capital}</h2>
+
+                <div className="">
+                  {borderCountry?.length && (
+                    <div className="flex items-center justify-between mt-14 gap-3">
+                      Border Countries:{" "}
+                      {borderCountry?.map((country, index) => (
+                        <p
+                          key={index}
+                          className="border border-gray-500 bg-white text-gray-400 shadow p-2 rounded-sm"
+                        >
+                          {country?.name?.official}
+                        </p>
+                      ))}{" "}
+                    </div>
+                  )}
+                </div>
+
+               
               </div>
+
               <div className="">
                 <h2>Top Level Domain: .be</h2>
                 <h2>
@@ -143,12 +217,19 @@ const CountryFlagDetails = () => {
                   {Object.values(country?.languages || {}).toString()}
                 </h2>
               </div>
-
-              {/* <div className="flex items-center gap-8">Border Countries: {country.borders.map((border) => <span key={border} className="border border-amber-300">{border}</span>)}</div> */}
-
-
             </div>
           )}
+
+          {/* <div className="">
+            {borderCountry?.length && (
+              <div className="flex items-center justify-between">
+                Border Countries:{" "}
+                {borderCountry?.map((country, index) => (
+                  <p key={index} className="border border-gray-500 bg-gray-600 p-2 rounded-sm">{country?.name?.official}</p>
+                ))}{" "}
+              </div>
+            )}
+          </div> */}
         </div>
       </div>
     </div>
