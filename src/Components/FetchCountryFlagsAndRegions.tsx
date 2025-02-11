@@ -1,15 +1,17 @@
-import BedtimeIcon from "@mui/icons-material/Bedtime";
+// import BedtimeIcon from "@mui/icons-material/Bedtime";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AppLayout from "./Layout/AppLayout";
+
 
 interface CountryData {
   name: { common: string; official: string };
   population: number;
   region: string;
   capital: string;
-  ccn3:string;
+  ccn3: string;
   flags: {
     svg: string;
     png: string;
@@ -19,7 +21,6 @@ interface CountryData {
 const baseUrl = "https://restcountries.com/v3.1";
 
 const FetchCountryFlagsAndRegions = () => {
-  const [themeColour, setThemeColour] = useState(false);
   const [countries, setCountries] = useState<CountryData[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState<string>("All");
@@ -27,9 +28,6 @@ const FetchCountryFlagsAndRegions = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleToggleColour = () => {
-    setThemeColour(!themeColour);
-  };
 
   // Fetch countries from API
   const fetchCountries = async (baseUrl: string) => {
@@ -46,20 +44,18 @@ const FetchCountryFlagsAndRegions = () => {
       setLoading(false);
     }
   };
-  
 
-   // Debounced Search Functionality
-   useEffect(() => {
+  // Debounced Search Functionality
+  useEffect(() => {
     const debounce = setTimeout(() => {
-      if(searchQuery) {
+      if (searchQuery) {
         fetchCountries(`${baseUrl}/name/${searchQuery}`);
       } else {
         fetchCountries(`${baseUrl}/all`);
       }
     }, 50);
-    return() => clearTimeout(debounce);
-   }, [searchQuery])
- 
+    return () => clearTimeout(debounce);
+  }, [searchQuery]);
 
   // Search functionality
   const handleSearch = () => {
@@ -81,37 +77,26 @@ const FetchCountryFlagsAndRegions = () => {
     }
   };
 
-
+  
 
   return (
     <div>
       <div
-        className={`h-screen ${
-          themeColour ? "bg-gray-900 text-white" : "bg-white text-black"
-        }`}
+        // className={`h-full ${
+        //   themeColour ? "bg-gray-900 text-white" : "bg-white text-black"
+        // }`}
       >
-        <div className="flex flex-col md:flex-row items-center justify-between shadow p-4 px-20">
-          <h1 className="font-semibold text-3xl">Where in the world!</h1>
-          <div
-            onClick={handleToggleColour}
-            className="flex flex-row gap-2 cursor-pointer mt-4"
-          >
-            <BedtimeIcon className="text-gray-200" />
-            <p>{themeColour? "Dark" : "Light" } Mode</p>
-          </div>
-        </div>
-        {/* SEARCH AND FILTER ICON: */}
+        <AppLayout>
         <div className="px-5 md:px-20">
           <div className="flex flex-col md:flex-row item-center justify-between gap-6">
             {/* SEARCHICON */}
-            <div
-              className=" flex items-center border border-gray-400 p-2 gap-3 rounded-lg mt-8"
-            >
+            <div className=" flex items-center border border-gray-400 p-2 gap-3 rounded-lg mt-8">
               <SearchIcon />
               <input
                 type="search"
                 placeholder="Searching for a country"
-                className="w-96 p-2 bg-transparent text-sm outline-none" onClick={handleSearch}
+                className="w-96 p-2 bg-transparent text-sm outline-none"
+                onClick={handleSearch}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -146,7 +131,9 @@ const FetchCountryFlagsAndRegions = () => {
                     className="shadow rounded-lg overflow-hidden"
                   >
                     <img
-                    onClick={() => {navigate(`/country/${country?.ccn3}`)}}
+                      onClick={() => {
+                        navigate(`/country/${country?.ccn3}`);
+                      }}
                       src={country.flags.svg}
                       alt={`${country.name.common} flag`}
                       className="h-40 w-full object-cover cursor-pointer"
@@ -175,6 +162,7 @@ const FetchCountryFlagsAndRegions = () => {
             </div>
           )}
         </div>
+        </AppLayout>
       </div>
     </div>
   );

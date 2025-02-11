@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import BedtimeIcon from "@mui/icons-material/Bedtime";
+// import BedtimeIcon from "@mui/icons-material/Bedtime";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AppLayout from "./Layout/AppLayout";
 
 interface Country {
   name: {
@@ -39,7 +40,6 @@ const baseUrl = "https://restcountries.com/v3.1";
 
 const CountryFlagDetails = () => {
   const navigate = useNavigate();
-  const [themeColour, setThemeColour] = useState(false);
   const [country, setCountry] = useState<Country | null>(null);
   const [borderCountry, setBorderCountry] = useState<Country[] | null>(null);
   const [countries, setCountries] = useState<Country[] | null>(null);
@@ -47,33 +47,6 @@ const CountryFlagDetails = () => {
   const [error, setError] = useState<string | null>(null);
   const { code } = useParams();
 
-  const handleToggleColour = () => {
-    setThemeColour(!themeColour);
-  };
-
-  // const fetchCountryDetails = async () => {
-  //   try {
-  //     setLoading(true);
-  //     setError(null);
-  //     const response = await axios.get(`${baseUrl}/alpha/${code}`);
-  //     // console.log(response.data);
-  //     setCountry(response.data[0]); // The API returns an array
-
-  //   } catch (error) {
-  //     console.error("Error fetching country:", error);
-  //     setError("Error fetching countries. Please try again.");
-
-  //   }  finally {
-  //     setLoading(false);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (code) {
-  //     fetchCountryDetails();
-  //   }
-
-  // },[code])
 
   const fetchCountryDetails = async () => {
     try {
@@ -95,7 +68,6 @@ const CountryFlagDetails = () => {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${baseUrl}/all`);
-      // console.log(response.data);
       setCountries(response.data); // The API returns an array
     } catch (error) {
       console.error("Error fetching country:", error);
@@ -134,100 +106,103 @@ const CountryFlagDetails = () => {
   return (
     <div>
       <div
-        className={`h-screen ${
-          themeColour ? "bg-gray-900 text-white" : "bg-white text-black"
-        }`}
+        // className={`h-full ${
+        //   themeColour ? "bg-gray-900 text-white" : "bg-white text-black"
+        // }`}
       >
-        <div className="flex flex-col md:flex-row items-center justify-between p-4 shadow overflow-hidden px-30">
-          <h1 className="font-semibold text-3xl">Where in the world!</h1>
-          <div
-            onClick={handleToggleColour}
-            className="flex flex-row gap-2 cursor-pointer mt-4"
-          >
-            <BedtimeIcon className="text-gray-200" />
-            <p>{themeColour ? "Dark" : "Light"} Mode</p>
-          </div>
-        </div>
-        <div className="px-30">
-          <div
-            className="border border-gray-400 p-2 rounded-lg mt-8 w-36 cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            <ArrowBackIcon />
-            <button>Back</button>
-          </div>
-
-          {loading && (
-            <p className="text-center mt-10">Loading country details...</p>
-          )}
-          {error && <p className="text-center text-red-500 mt-10">{error}</p>}
-
-          {country && (
-            <div className="flex flex-row items-center gap-12">
-              <div className="4">
-                <img
-                  src={country.flags.svg}
-                  alt={country.flags.alt || `Flag of ${country.name.common}`}
-                  className="rounded-lg shadow-lg mt-10 h-80"
-                />
-              </div>
-              <div className="flex flex-row">
-                <div className="">
-                  <h2 className="text-3xl font-semibold">
-                    {country.name.common}
-                  </h2>
-                  <h2 className=" mt-10">
-                    Native Name:{" "}
-                    {Object.values(country?.name.nativeName || {})[0].common}
-                  </h2>
-
-                  <h2 className="text-sm">Population: {country.population}</h2>
-                  <h2 className="text-sm">Region: {country.region}</h2>
-                  <h2 className="text-sm">Sub Region: {country.subregion}</h2>
-                  <h2 className="text-sm ">Capital: {country.capital}</h2>
-
-
-                  <div className="">
-                    {borderCountry?.length && (
-                      <div className="flex items-center justify-between mt-14 gap-3">
-                        Border Countries:{" "}
-                        {borderCountry?.map((country, index) => (
-                          <p
-                            key={index}
-                            className={`border border-white text-gray-400 shadow p-2 rounded-sm ${
-                              themeColour
-                                ? "bg-gray-700 text-white"
-                                : "bg-white text-gray-400"
-                            }`}
-                          >
-                            {country?.name?.official}
-                          </p>
-                        ))}{" "}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className=" mt-20">
-                  <h2>Top Level Domain: .be</h2>
-                  <h2>
-                    Currencies:{" "}
-                    {Object.values(country?.currencies || {})
-                      .map((item) => item.name)
-                      .toString()}
-                  </h2>
-                  <h2>
-                    Languages:{" "}
-                    {Object.values(country?.languages || {}).toString()}
-                  </h2>
-                </div>
-              </div>
+        <AppLayout>
+          <div className="md:px-30 px-10">
+            <div
+              className="border border-gray-400 rounded-lg mt-8 w-36 cursor-pointer px-8"
+              onClick={() => navigate("/")}
+            >
+              <ArrowBackIcon />
+              <button>Back</button>
             </div>
-          )}
-        </div>
+
+            {loading && (
+              <p className="text-center mt-10">Loading country details...</p>
+            )}
+            {error && <p className="text-center text-red-500 mt-10">{error}</p>}
+
+            {country && (
+              // "flex flex-row items-center justify-center gap-12
+              <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+                <div className="flex justify-center">
+                  <img
+                    src={country.flags.svg}
+                    alt={country.flags.alt || `Flag of ${country.name.common}`}
+                    className=" mt-10"
+                  />
+                </div>
+
+                <div className="">
+                  <div className=" flex flex-col md:flex-row items-center gap-4 justify-between">
+                  <div className="">
+                  <h2 className="text-3xl font-semibold">
+                      {country.name.common}
+                    </h2>
+                    <h2 className="mt-8">
+                      Native Name:{" "}
+                      {Object.values(country?.name.nativeName || {})[0].common}
+                    </h2>
+
+                    <h2 className="text-sm">Population: {country.population}</h2>
+                    <h2 className="text-sm">Region: {country.region}</h2>
+                    <h2 className="text-sm">Sub Region: {country.subregion}</h2>
+                    <h2 className="text-sm ">Capital: {country.capital}</h2>
+                  </div>
+
+                    <div className="mt-4">
+                      <h2>Top Level Domain: .be</h2>
+                      <h2>
+                        Currencies:{" "}
+                        {Object.values(country?.currencies || {})
+                          .map((item) => item.name)
+                          .toString()}
+                      </h2>
+                      <h2>
+                        Languages:{" "}
+                        {Object.values(country?.languages || {}).toString()}
+                      </h2>
+                    </div>
+                    </div>
+
+                    
+                    <div className="">
+                      {borderCountry?.length && (
+                        // flex items-center justify-between mt-14 gap-3
+                        <div className="flex flex-col flex-wrap md:flex-row items-center gap-4 mt-2">
+                          Border Countries:{" "}
+                          {borderCountry?.map((country, index) => (
+                            <p
+                              key={index}
+                              // className={`border border-white w-fit text-gray-400 shadow p-2 rounded-sm ${
+                              //   themeColour
+                              //     ? "bg-gray-700 text-white"
+                              //     : "bg-white text-gray-400"
+                              // }`}
+                            >
+                              {country?.name?.common}
+                            </p>
+                          ))}{" "}
+                        </div>
+                      )}
+                    </div> 
+
+
+
+                
+                </div>
+              </div>
+            )}
+          </div>
+        </AppLayout>
       </div>
     </div>
   );
 };
 
 export default CountryFlagDetails;
+
+
