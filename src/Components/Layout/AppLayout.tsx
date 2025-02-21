@@ -1,15 +1,19 @@
-import React from 'react'
-import Navbar from './Navbar'
+import { ReactNode } from "react";
+import Navbar from "./Navbar";
 
+type LayoutReferrence = {
+  children: ReactNode;
+};
 
-const AppLayout = ({ children }) => {
+const AppLayout = ({ children }: LayoutReferrence) => {
   return (
-    <div>
-        <Navbar/>
+    <>
+      <div>
+        <Navbar />
         {children}
-       
-    </div>
-  )
-}
+      </div>
+    </>
+  );
+};
 
-export default AppLayout
+export default AppLayout;

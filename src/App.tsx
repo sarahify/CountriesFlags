@@ -8,10 +8,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={<FetchCountryFlagsAndRegions />}
-          />
+          <Route path="/" element={<FetchCountryFlagsAndRegions />} />
           <Route path="/country/:code" element={<CountryFlagDetails />} />
         </Routes>
       </BrowserRouter>

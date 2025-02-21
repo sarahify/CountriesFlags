@@ -171,7 +171,6 @@ const CountryFlagDetails = () => {
                     
                     <div className="">
                       {borderCountry?.length && (
-                        // flex items-center justify-between mt-14 gap-3
                         <div className="flex flex-col flex-wrap md:flex-row items-center gap-4 mt-2">
                           Border Countries:{" "}
                           {borderCountry?.map((country, index) => (
