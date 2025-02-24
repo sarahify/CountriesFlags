@@ -1,18 +1,42 @@
-import { createContext, useReducer } from "react";
+import { createContext, useContext, useReducer } from "react";
 import "./App.css";
 import CountryFlagDetails from "./Components/CountryFlagDetails";
 import FetchCountryFlagsAndRegions from "./Components/FetchCountryFlagsAndRegions";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-export const ThemeContext = createContext<"dark" | "light">("dark");
 
 
+type ThemeState = {
+  theme: "light" | "dark";
+};
+
+
+export const ThemeContext = createContext<ThemeState>({theme:"dark"});
+
+interface ToggleAction {
+  type: "TOGGLE_THEME";
+}
+
+export const themeReducer= (state:ThemeState , action:ToggleAction)=>{
+  switch (action.type){
+    case "TOGGLE_THEME": 
+    debugger;
+    const newState = state.theme === "light" ? "dark" : "light" 
+      return state.theme = newState
+    default:
+      return state
+  }
+}
 
 function App() {
+
+    const [theme, dispatch] = useReducer(themeReducer, {theme:"dark"});
+
+    console.log({theme})
   
   return (
     <>
-    <ThemeContext.Provider value={"dark"}>
+    <ThemeContext.Provider value={{theme, dispatch}}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<FetchCountryFlagsAndRegions />} />
