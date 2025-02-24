@@ -47,7 +47,6 @@ const CountryFlagDetails = () => {
   const [error, setError] = useState<string | null>(null);
   const { code } = useParams();
 
-
   const fetchCountryDetails = async () => {
     try {
       setLoading(true);
@@ -105,70 +104,76 @@ const CountryFlagDetails = () => {
 
   return (
     <div>
-      <div
-        // className={`h-full ${
-        //   themeColour ? "bg-gray-900 text-white" : "bg-white text-black"
-        // }`}
-      >
+      <div>
         <AppLayout>
-          <div className="md:px-30 px-10">
+          <div className="px-30">
             <div
-              className="border border-gray-400 rounded-lg mt-8 w-36 cursor-pointer px-8"
+              className=" w-24 px-4 py-1 mt-10 shadow rounded-lg cursor-pointer"
               onClick={() => navigate("/")}
             >
               <ArrowBackIcon />
               <button>Back</button>
             </div>
 
-            {loading && (
-              <p className="text-center mt-10">Loading country details...</p>
-            )}
-            {error && <p className="text-center text-red-500 mt-10">{error}</p>}
+            <div>
+              {loading && (
+                <p className="text-center mt-10">Loading country details...</p>
+              )}
+              {error && (
+                <p className="text-center text-red-500 mt-10">{error}</p>
+              )}
 
-            {country && (
-              // "flex flex-row items-center justify-center gap-12
-              <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
-                <div className="flex justify-center">
-                  <img
-                    src={country.flags.svg}
-                    alt={country.flags.alt || `Flag of ${country.name.common}`}
-                    className=" mt-10"
-                  />
-                </div>
-
-                <div className="">
-                  <div className=" flex flex-col md:flex-row items-center gap-4 justify-between">
-                  <div className="">
-                  <h2 className="text-3xl font-semibold">
-                      {country.name.common}
-                    </h2>
-                    <h2 className="mt-8">
-                      Native Name:{" "}
-                      {Object.values(country?.name.nativeName || {})[0].common}
-                    </h2>
-
-                    <h2 className="text-sm">Population: {country.population}</h2>
-                    <h2 className="text-sm">Region: {country.region}</h2>
-                    <h2 className="text-sm">Sub Region: {country.subregion}</h2>
-                    <h2 className="text-sm ">Capital: {country.capital}</h2>
+              {country && (
+                <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+                  <div className="flex justify-center">
+                    <img
+                      src={country.flags.svg}
+                      alt={
+                        country.flags.alt || `Flag of ${country.name.common}`
+                      }
+                      className="mt-10"
+                    />
                   </div>
 
-                    <div className="mt-4">
-                      <h2>Top Level Domain: .be</h2>
-                      <h2>
-                        Currencies:{" "}
-                        {Object.values(country?.currencies || {})
-                          .map((item) => item.name)
-                          .toString()}
-                      </h2>
-                      <h2>
-                        Languages:{" "}
-                        {Object.values(country?.languages || {}).toString()}
-                      </h2>
-                    </div>
+                  <div className="">
+                    <div className=" flex flex-col md:flex-row items-center gap-4 justify-between">
+                      <div className="">
+                        <h2 className="text-3xl font-semibold">
+                          {country.name.common}
+                        </h2>
+                        <h2 className="mt-8">
+                          Native Name:{" "}
+                          {
+                            Object.values(country?.name.nativeName || {})[0]
+                              .common
+                          }
+                        </h2>
+
+                        <h2 className="text-sm">
+                          Population: {country.population}
+                        </h2>
+                        <h2 className="text-sm">Region: {country.region}</h2>
+                        <h2 className="text-sm">
+                          Sub Region: {country.subregion}
+                        </h2>
+                        <h2 className="text-sm ">Capital: {country.capital}</h2>
+                      </div>
+
+                      <div className="mt-4">
+                        <h2>Top Level Domain: .be</h2>
+                        <h2>
+                          Currencies:{" "}
+                          {Object.values(country?.currencies || {})
+                            .map((item) => item.name)
+                            .toString()}
+                        </h2>
+                        <h2>
+                          Languages:{" "}
+                          {Object.values(country?.languages || {}).toString()}
+                        </h2>
+                      </div>
                     </div>
 
-                    
                     <div className="">
                       {borderCountry?.length && (
                         <div className="flex flex-col flex-wrap md:flex-row items-center gap-4 mt-2">
@@ -181,20 +186,18 @@ const CountryFlagDetails = () => {
                               //     ? "bg-gray-700 text-white"
                               //     : "bg-white text-gray-400"
                               // }`}
+                              className="border border-white w-fit text-gray-400 shadow p-2 rounded-sm"
                             >
                               {country?.name?.common}
                             </p>
                           ))}{" "}
                         </div>
                       )}
-                    </div> 
-
-
-
-                
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </AppLayout>
       </div>
@@ -203,5 +206,3 @@ const CountryFlagDetails = () => {
 };
 
 export default CountryFlagDetails;
-
-
