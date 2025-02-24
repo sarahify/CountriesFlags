@@ -123,12 +123,12 @@ const FetchCountryFlagsAndRegions = () => {
           ) : error ? (
             <p className="text-center text-2xl mt-10 text-red-500">{error}</p>
           ) : (
-            <div className="mt-20 gap-20 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="mt-20 gap-5 md:gap-20 grid place-content-center place-items-center  grid-cols-1 md:grid-cols-2 ld:grid-cols-3 xl:grid-cols-4">
               {countries.length > 0 ? (
                 countries.map((country, index) => (
                   <div
                     key={index}
-                    className="shadow rounded-lg overflow-hidden"
+                    className="shadow rounded-lg w-full md:max-w-[296px]"
                   >
                     <img
                       onClick={() => {
@@ -136,7 +136,7 @@ const FetchCountryFlagsAndRegions = () => {
                       }}
                       src={country.flags.svg}
                       alt={`${country.name.common} flag`}
-                      className="h-40 w-full object-cover cursor-pointer"
+                      className="md:max-h-[10rem] w-full object-cover"
                     />
                     <div className="p-4">
                       <p className="text-xl font-semibold">

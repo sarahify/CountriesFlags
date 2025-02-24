@@ -1,18 +1,46 @@
-import { useState } from "react";
+import { useContext, useReducer, useState } from "react";
 import BedtimeIcon from "@mui/icons-material/Bedtime";
+import { ThemeContext } from "../../App";
+
+type ThemeState = {
+  theme: "light" | "dark";
+};
+
+interface ToggleAction {
+  type: "TOGGLE_THEME";
+}
+
+function themeReducer(state: ThemeState, action: ToggleAction) {
+  switch (action.type) {
+    case "TOGGLE_THEME":
+      return { theme: state.theme === "light" ? "dark" : "light" };
+    default:
+      return state;
+  }
+}
+
+
+
 
 const Navbar = () => {
-  const [themeColour, setThemeColour] = useState(false);
-  
-  
+  const [themeColour, setThemeColour] = useState("light");
+
+  const [state, dispatch] = useReducer(themeReducer, { themeColour: "light" });
+
+ 
+
 
   const handleToggleColour = () => {
     setThemeColour(!themeColour);
   };
+  
 
+  const theme = useContext(ThemeContext);
+
+  console.log({ theme });
   return (
-    <div>
-      <nav>
+    <div className="">
+      <nav className="sticky top-[0px]">
         <div
           className={` ${
             themeColour ? "bg-gray-900 text-white" : "bg-white text-black"
@@ -35,3 +63,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+
+
