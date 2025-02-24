@@ -135,65 +135,58 @@ const CountryFlagDetails = () => {
                     />
                   </div>
 
-                  <div className="">
-                    <div className=" flex flex-col md:flex-row items-center gap-4 justify-between">
-                      <div className="">
-                        <h2 className="text-3xl font-semibold">
-                          {country.name.common}
-                        </h2>
-                        <h2 className="mt-8">
-                          Native Name:{" "}
-                          {
-                            Object.values(country?.name.nativeName || {})[0]
-                              .common
-                          }
-                        </h2>
-
-                        <h2 className="text-sm">
-                          Population: {country.population}
-                        </h2>
-                        <h2 className="text-sm">Region: {country.region}</h2>
-                        <h2 className="text-sm">
-                          Sub Region: {country.subregion}
-                        </h2>
-                        <h2 className="text-sm ">Capital: {country.capital}</h2>
-                      </div>
-
-                      <div className="mt-4">
-                        <h2>Top Level Domain: .be</h2>
-                        <h2>
-                          Currencies:{" "}
-                          {Object.values(country?.currencies || {})
-                            .map((item) => item.name)
-                            .toString()}
-                        </h2>
-                        <h2>
-                          Languages:{" "}
-                          {Object.values(country?.languages || {}).toString()}
-                        </h2>
-                      </div>
-                    </div>
-
+                  <div className=" flex flex-col md:flex-row items-center gap-4 justify-between">
                     <div className="">
-                      {borderCountry?.length && (
-                        <div className="flex flex-col flex-wrap md:flex-row items-center gap-4 mt-2">
-                          Border Countries:{" "}
-                          {borderCountry?.map((country, index) => (
-                            <p
-                              key={index}
-                              // className={`border border-white w-fit text-gray-400 shadow p-2 rounded-sm ${
-                              //   themeColour
-                              //     ? "bg-gray-700 text-white"
-                              //     : "bg-white text-gray-400"
-                              // }`}
-                              className="border border-white w-fit text-gray-400 shadow p-2 rounded-sm"
-                            >
-                              {country?.name?.common}
-                            </p>
-                          ))}{" "}
-                        </div>
-                      )}
+                      <h2 className="text-3xl font-semibold">
+                        {country.name.common}
+                      </h2>
+                      <h2 className="mt-8">
+                        Native Name:{" "}
+                        {
+                          Object.values(country?.name.nativeName || {})[0]
+                            .common
+                        }
+                      </h2>
+
+                      <h2 className="text-sm">
+                        Population: {country.population}
+                      </h2>
+                      <h2 className="text-sm">Region: {country.region}</h2>
+                      <h2 className="text-sm">
+                        Sub Region: {country.subregion}
+                      </h2>
+                      <h2 className="text-sm ">Capital: {country.capital}</h2>
                     </div>
+
+                    <div className="mt-4">
+                      <h2>Top Level Domain: .be</h2>
+                      <h2>
+                        Currencies:{" "}
+                        {Object.values(country?.currencies || {})
+                          .map((item) => item.name)
+                          .toString()}
+                      </h2>
+                      <h2>
+                        Languages:{" "}
+                        {Object.values(country?.languages || {}).toString()}
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div className="">
+                    {borderCountry?.length && (
+                      <div className="flex flex-col flex-wrap md:flex-row items-center gap-4 mt-2">
+                        Border Countries:{" "}
+                        {borderCountry?.map((country, index) => (
+                          <p
+                            key={index}
+                            className="border border-white w-fit text-gray-400 shadow p-2 rounded-sm"
+                          >
+                            {country?.name?.common}
+                          </p>
+                        ))}{" "}
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
